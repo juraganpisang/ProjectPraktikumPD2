@@ -5,6 +5,7 @@
  */
 package tugasakhir;
 
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,6 +23,26 @@ public class TugasAkhir {
             System.out.println((i + 1) + ". " + suit.get(i));
         }
         System.out.print("Masukkan Pilihan : ");
+    }
+
+    //untuk pengacakan dadu
+    //salah
+    static int acak_dadu(String pemenang, String nama_player1, String nama_player2) {
+
+        if (pemenang.equals("Player 1")) {
+            System.out.println(nama_player1);
+        } else {
+            System.out.println(nama_player2);
+        }
+
+        System.out.print("Tekan Enter Untuk Putar Dadu");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+
+        Random rand = new Random();
+
+        int n = rand.nextInt(6) + 1;
+        return n;
     }
 
     //untuk mengecek pemenang
@@ -64,9 +85,9 @@ public class TugasAkhir {
         suit.add("Kertas");
 
         //pendeklarasian variabel
-        String pemenang;
+        String pemenang, nama_player1, nama_player2;
         boolean sama = false;
-        int pilih_menu, suit_player1, suit_player2;
+        int pilih_menu, suit_player1, suit_player2, dadu, hasil_acak;
 
         //Tampilan Menu Awal
         System.out.println("======================");
@@ -83,6 +104,12 @@ public class TugasAkhir {
             case 1:
                 System.out.println("ULAR TANGGA\n");
                 System.out.println("Tahap Pertama");
+                System.out.print("Masukkan Nama Player 1 : ");
+                nama_player1 = input.next();
+                System.out.print("Masukkan Nama Player 2 : ");
+                nama_player2 = input.next();
+
+                System.out.println("");
                 System.out.println("Silahkan Adu Suit (Gunting Batu Kertas)");
                 System.out.println("Peserta Di Harap Saling Bergantian\n");
                 do {
@@ -92,9 +119,9 @@ public class TugasAkhir {
                         suit();
                         suit_player1 = input.nextInt();
                     } while (suit_player1 < 1 || suit_player1 > 3);
-                    for(int i = 0; i < 100; i++){
-                    System.out.println("");
-                        };
+                    for (int i = 0; i < 100; i++) {
+                        System.out.println("");
+                    }
                     do {
                         System.out.println("Player 2");
                         suit();
@@ -110,6 +137,10 @@ public class TugasAkhir {
                 pemenang = cek_suit(suit_player1, suit_player2);
                 System.out.println(pemenang);
 
+                //masih belum selesai
+                System.out.println("Silahkan  Memulai Permainan");
+                hasil_acak = acak_dadu(pemenang, nama_player1, nama_player2);
+                System.out.println(hasil_acak);
                 break;
             //Menu Buat Skor
             case 2:
