@@ -1,0 +1,9 @@
+Buat array list untuk ular dan tangga.
+  a. Ular
+  Misal ular ada di index ke 30, lalu player dibuat turun 30 index ke belakang
+  b. Tangga
+  Misal tangga ada di index ke 45, lalu player dibuat naik 15 index ke depan
+  
+ 
+Rencana awal akan dibuat 4 ular, dan 4 tangga.
+Ular dan Tangga ini akan berada pada posisi yang sama setiap kali permainan dimulai (posisi ular dan tangga menyusul)
