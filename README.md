@@ -7,3 +7,6 @@ Progess :
 1. Buat Tampilan
 2. Suit
 3. Database
+4. Acak Dadu
+5. Pergantian Pemain
+6. Ular dan Tangga
