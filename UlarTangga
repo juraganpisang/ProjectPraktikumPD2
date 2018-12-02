@@ -15,10 +15,15 @@ import java.util.Scanner;
  */
 public class TugasAkhir {
 
+    static Scanner input = new Scanner(System.in);
+    static String player1;
+    static String player2;
+    static int lokasi1 = 0;
+    static int lokasi2 = 0;
     static ArrayList<String> suit = new ArrayList<String>();
 
     //untuk menampilkan suit
-    static void suit() {
+    static void suitnya() {
         for (int i = 0; i < suit.size(); i++) {
             System.out.println((i + 1) + ". " + suit.get(i));
         }
@@ -26,128 +31,240 @@ public class TugasAkhir {
     }
 
     //untuk pengacakan dadu
-    //salah
-    static int acak_dadu(String pemenang, String nama_player1, String nama_player2) {
-
-        if (pemenang.equals("Player 1")) {
-            System.out.println(nama_player1);
-        } else {
-            System.out.println(nama_player2);
-        }
-
-        System.out.print("Tekan Enter Untuk Putar Dadu");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-
+    static int acak_dadu() {
         Random rand = new Random();
+        int i = rand.nextInt(6) + 1;
+        if (i == 7 || i == 0) {
+            acak_dadu();
+        }
+        return i;
 
-        int n = rand.nextInt(6) + 1;
-        return n;
+    }
+
+    //untuk menukar jika pemenang nya player
+    static void swap() {
+        String temp = player1;
+        player1 = player2;
+        player2 = temp;
     }
 
     //untuk mengecek pemenang
-    static String cek_suit(int suit_player1, int suit_player2) {
-        String data_player1, data_player2;
-        data_player1 = suit.get(suit_player1 - 1);
-        data_player2 = suit.get(suit_player2 - 1);
-        String hasil = "";
-        String player1 = "Player 1";
-        String player2 = "Player 2";
+    static void suit() {
+        int suit_player1, suit_player2;
+        System.out.print("Masukan Nama Player 1 : ");
+        player1 = input.next();
+        System.out.print("Masukan Nama Player 2 : ");
+        player2 = input.next();
+        System.out.println("");
 
-        if (data_player1.equalsIgnoreCase("Gunting") && data_player2.equalsIgnoreCase("Batu")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player2;
-        } else if (data_player1.equalsIgnoreCase("Gunting") && data_player2.equalsIgnoreCase("Kertas")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player1;
-        } else if (data_player1.equalsIgnoreCase("Batu") && data_player2.equalsIgnoreCase("Gunting")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player1;
-        } else if (data_player1.equalsIgnoreCase("Batu") && data_player2.equalsIgnoreCase("Kertas")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player2;
-        } else if (data_player1.equalsIgnoreCase("Kertas") && data_player2.equalsIgnoreCase("Gunting")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player2;
-        } else if (data_player1.equalsIgnoreCase("Kertas") && data_player2.equalsIgnoreCase("Batu")) {
-            hasil = data_player1 + " vs " + data_player2 + "\n"
-                    + "Pemenang adalah " + player1;
+        //1 = Gunting
+        //2 = Batu
+        //3 = Kertas
+        do {
+            do {
+                System.out.println(player1);
+                suitnya();
+                suit_player1 = input.nextInt();
+            } while (suit_player1 < 1 || suit_player1 > 3);
+            for (int i = 0; i < 100; i++) {
+                System.out.println("");
+            }
+            do {
+                System.out.println(player2);
+                suitnya();
+                suit_player2 = input.nextInt();
+            } while (suit_player2 < 1 || suit_player2 > 3);
+
+            if (suit_player1 == suit_player2) {
+                System.out.println("Suit Sama, Lakukan Sekali Lagi\n");
+            } else {
+                //1 vs 2 == gunting vs batu
+                if (suit_player1 == 1 && suit_player2 == 2) {
+                    swap();
+                    // 2 vs 3 == batu vs kertas
+                } else if (suit_player1 == 2 && suit_player2 == 3) {
+                    swap();
+                    // 3 vs 1 == kertas vs gunting
+                } else if (suit_player1 == 3 && suit_player2 == 1) {
+                    swap();
+                }
+            }
+        } while (suit_player1 == suit_player2);
+        System.out.println("\n == Role == ");
+        System.out.println("Pertama : " + player1 + " ------ Kedua : " + player2);
+    }
+
+    static int cek(int lokasi) {
+        //tangga
+        if (lokasi == 8) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +21");
+            lokasi = lokasi + 21;
+        } else if (lokasi == 22) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +10");
+            lokasi = lokasi + 10;
+        } else if (lokasi == 41) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +6");
+            lokasi = lokasi + 6;
+        } else if (lokasi == 67) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +18");
+            lokasi = lokasi + 18;
+        } else if (lokasi == 81) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +12");
+            lokasi = lokasi + 93;
+        } else if (lokasi == 89) {
+            System.out.println("HOREEE!");
+            System.out.println("Naik Tangga +5");
+            lokasi = lokasi + 5;
         }
-        return hasil;
+
+        //ular
+        if (lokasi == 11) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -10");
+            lokasi = lokasi - 10;
+        } else if (lokasi == 43) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -8");
+            lokasi = lokasi - 8;
+        } else if (lokasi == 52) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -4");
+            lokasi = lokasi - 4;
+        } else if (lokasi == 73) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -9");
+            lokasi = lokasi - 9;
+        } else if (lokasi == 92) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -20");
+            lokasi = lokasi - 20;
+        } else if (lokasi == 99) {
+            System.out.println("OH SNAP!");
+            System.out.println("Kena Ular -12");
+            lokasi = lokasi - 12;
+        }
+
+        //melebihi 100
+        if (lokasi > 100) {
+            lokasi = 100 - (lokasi - 100);//lebih dari finish
+            cek(lokasi);
+        }
+        return lokasi;
     }
 
     public static void main(String[] args) {
-        //pendeklarasian import2
-        Scanner input = new Scanner(System.in);
-
         suit.add("Gunting");
         suit.add("Batu");
         suit.add("Kertas");
 
         //pendeklarasian variabel
-        String pemenang, nama_player1, nama_player2;
-        boolean sama = false;
-        int pilih_menu, suit_player1, suit_player2, dadu, hasil_acak;
+        int pilih_menu, dadu;
+        char ulang = 0;
 
         //Tampilan Menu Awal
-        System.out.println("======================");
-        System.out.println("ULAR TANGGA SEDERHANA");
-        System.out.println("======================");
+        do {
+            System.out.println("======================");
+            System.out.println("ULAR TANGGA SEDERHANA");
+            System.out.println("======================");
 
-        System.out.println("\n1. Main kuy!");
-        System.out.println("2. Lihat Skor Permainan");
-        System.out.println("3. Keluar");
-        System.out.print("Masukkan Pilihan : ");
-        pilih_menu = input.nextInt();
-        switch (pilih_menu) {
-            //Menu Buat Main
-            case 1:
-                System.out.println("ULAR TANGGA\n");
-                System.out.println("Tahap Pertama");
-                System.out.print("Masukkan Nama Player 1 : ");
-                nama_player1 = input.next();
-                System.out.print("Masukkan Nama Player 2 : ");
-                nama_player2 = input.next();
+            System.out.println("\n1. Main kuy!");
+            System.out.println("2. Lihat Skor Permainan");
+            System.out.println("3. Keluar");
+            System.out.print("Masukkan Pilihan : ");
+            pilih_menu = input.nextInt();
+            switch (pilih_menu) {
+                //Menu Buat Main
+                case 1:
+                    System.out.println("\nULAR TANGGA\n");
+                    System.out.println("Tahap Pertama");
+                    System.out.println("Silahkan Adu Suit (Gunting Batu Kertas)");
+                    System.out.println("Peserta Di Harap Saling Bergantian\n");
+                    suit();
 
-                System.out.println("");
-                System.out.println("Silahkan Adu Suit (Gunting Batu Kertas)");
-                System.out.println("Peserta Di Harap Saling Bergantian\n");
-                do {
-                    sama = false;
                     do {
-                        System.out.println("Player 1");
-                        suit();
-                        suit_player1 = input.nextInt();
-                    } while (suit_player1 < 1 || suit_player1 > 3);
-                    for (int i = 0; i < 100; i++) {
-                        System.out.println("");
-                    }
-                    do {
-                        System.out.println("Player 2");
-                        suit();
-                        suit_player2 = input.nextInt();
-                    } while (suit_player2 < 1 || suit_player2 > 3);
-                    //untuk melakukan pengecekan suit,jika sama
-                    if (suit_player1 == suit_player2) {
-                        System.out.println(suit.get(suit_player1) + " vs " + suit.get(suit_player2) + ". Lakukan Suit Lagi");
-                        sama = true;
-                    }
-                } while (sama == true);
-                //jika tidak sama
-                pemenang = cek_suit(suit_player1, suit_player2);
-                System.out.println(pemenang);
+                        System.out.println("\nSilahkan  Memulai Permainan");
+                        input.nextLine();
+                        int ronde = 1;
 
-                //masih belum selesai
-                System.out.println("Silahkan  Memulai Permainan");
-                hasil_acak = acak_dadu(pemenang, nama_player1, nama_player2);
-                System.out.println(hasil_acak);
-                break;
-            //Menu Buat Skor
-            case 2:
-                break;
-            case 3:
-                break;
-        }
+                        for (int i = 1;; i++) {
+                            if (i % 2 != 0) {
+                                System.out.println("RONDE " + ronde);
+                                System.out.println("POSISI " + player1 + " : " + lokasi1);
+                                System.out.print(player1 + " lempar dadu tekan ENTER ... ");
+                                input.nextLine();
+                                dadu = acak_dadu();
+                                System.out.println("Dapat : " + dadu);
+                                System.out.println("Maju " + dadu + " langkah");
+                                lokasi1 = lokasi1 + dadu;
+
+                                //CEK POSISI
+                                lokasi1 = cek(lokasi1);
+                                if (lokasi1 == lokasi2) {
+                                    lokasi2 = 0;
+                                }
+                                System.out.println("\nPOSISI " + player1 + " sekarang : " + lokasi1);
+                                System.out.print("Tekan Enter Untuk Lanjut ... ");
+                                input.nextLine();
+                                System.out.println("");
+
+                                if (lokasi1 == 100) {
+                                    System.out.println("== Game Selesai ==");
+                                    System.out.println(player1 + " menang");
+                                    System.out.println(player1 + " berada di " + lokasi1);
+                                    System.out.println(player2 + " berada di " + lokasi2);
+                                    break;
+                                }
+                            } else {
+                                System.out.println("POSISI " + player2 + " : " + lokasi2);
+                                System.out.print(player2 + " lempar dadu tekan ENTER ... ");
+                                input.nextLine();
+                                dadu = acak_dadu();
+                                System.out.println("Dapat : " + dadu);
+                                System.out.println("Maju " + dadu + " langkah");
+                                lokasi2 = lokasi2 + dadu;
+
+                                //CEK POSISI
+                                lokasi2 = cek(lokasi2);
+                                if (lokasi1 == lokasi2) {
+                                    lokasi1 = 0;
+                                }
+
+                                System.out.println("\nPOSISI " + player2 + " sekarang : " + lokasi2);
+                                System.out.print("Tekan Enter Untuk Lanjut ... ");
+                                input.nextLine();
+                                System.out.println("");
+
+                                //JIKA MENANG
+                                if (lokasi2 == 100) {
+                                    System.out.println("== Game Selesai ==");
+                                    System.out.println(player2 + " menang");
+                                    System.out.println(player2 + " berada di " + lokasi2);
+                                    System.out.println(player1 + " berada di " + lokasi1);
+                                    break;
+                                }
+                                ronde++;
+                            }
+                            System.out.println("");
+                        }
+                        do {
+                            System.out.print("Apakah Ingin Bermain Lagi[y]/[t]? ");
+                            ulang = input.next().charAt(0);
+                        } while (ulang != 'y' && ulang != 'Y' && ulang != 't' && ulang != 'T');
+                    } while (ulang == 'y' || ulang == 'Y');
+                    break;
+                //Menu Buat Skor
+                case 2:
+                    break;
+                case 3:
+                    break;
+            }
+            System.out.println("\n");
+        } while (pilih_menu != 3);
     }
 
 }
