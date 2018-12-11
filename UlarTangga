@@ -259,6 +259,20 @@ public class TugasAkhir {
                     break;
                 //Menu Buat Skor
                 case 2:
+                        //query untuk menampilkan semua isi pada table history dalam perintah mysql
+                        sql = "SELECT * FROM history";
+                        ResultSet rs = stmt.executeQuery(sql);
+
+                        //perintah untuk menampilkan semua isi pada table history di netbeans
+                        while (rs.next()) {
+                            int id = rs.getInt("id");
+                            String pemain_1 = rs.getString("pemain_1");
+                            int lokasi1 = rs.getInt("score_1");
+                            String pemain_2 = rs.getString("pemain_2");
+                            int lokasi2 = rs.getInt("score_2");
+                            System.out.println("| ID Game | Player 1 Name | Score Player1 | Player 2 Name | Score Player 2 |");
+                            System.out.println("| " + id + "\t  | " + pemain_1 + "\t  | " + lokasi1 + "\t\t  | " + pemain_2 + "\t  | " + lokasi2 + "\t\t   |");
+                        }
                     break;
                 case 3:
                     break;
