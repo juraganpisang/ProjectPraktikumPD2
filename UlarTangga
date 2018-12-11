@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tugasakhir;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,6 +23,15 @@ public class TugasAkhir {
     static int lokasi1 = 0;
     static int lokasi2 = 0;
     static ArrayList<String> suit = new ArrayList<String>();
+
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/praktikum_pd2";
+    static final String USER = "root";
+    static final String PASS = "";
+
+    static Connection conn;
+    static Statement stmt;
+    static ResultSet rs;
 
     //untuk menampilkan suit
     static void suitnya() {
@@ -157,7 +168,57 @@ public class TugasAkhir {
         return lokasi;
     }
 
+    static void insert() {
+        try {
+            String sql = "INSERT INTO ular_tangga "
+                    + "VALUES (0,'" + player1 + "','" + lokasi1 + "','" + player2 + "','" + lokasi2 + "')";
+            stmt.execute(sql);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void show() {
+        String sql = "SELECT * FROM ular_tangga";
+
+        try {
+            rs = stmt.executeQuery(sql);
+
+            System.out.println("+--------------------------------+");
+            System.out.println("|       DATA SKOR PERMAINAN      |");
+            System.out.println("+--------------------------------+");
+
+            System.out.println("No Nama Player1\tSkor\t\tNama Player2\tSkor");
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String data_player1 = rs.getString("pemain_1");
+                int data_lokasi1 = rs.getInt("skor_1");
+                String data_player2 = rs.getString("pemain_2");
+                int data_lokasi2 = rs.getInt("skor_2");
+
+                System.out.println(id + ". " + data_player1 + "\t" + data_lokasi1 + "\t\t" + data_player2 + "\t\t" + data_lokasi2);
+            }
+            System.out.print("tekan ENTER ... ");
+            input.nextLine();
+            input.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
+        //Memanggil koneksi
+        try {
+            Class.forName(JDBC_DRIVER);
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            stmt = conn.createStatement();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         suit.add("Gunting");
         suit.add("Batu");
         suit.add("Kertas");
@@ -189,7 +250,10 @@ public class TugasAkhir {
                     do {
                         System.out.println("\nSilahkan  Memulai Permainan");
                         input.nextLine();
+                        //menset lokasi dan ronde ke awal
                         int ronde = 1;
+                        lokasi1 = 0;
+                        lokasi2 = 0;
 
                         for (int i = 1;; i++) {
                             if (i % 2 != 0) {
@@ -217,11 +281,8 @@ public class TugasAkhir {
                                     System.out.println(player1 + " menang");
                                     System.out.println(player1 + " berada di " + lokasi1);
                                     System.out.println(player2 + " berada di " + lokasi2);
-                                    
-                                    //memasukkan hasil akhir ke database apabila player1 yang menang
-                                    sql = "INSERT INTO history SET id=" + "NULL" + "," + "pemain_1=" + "'" + player2 + "'" + "," + "score_1=" + "'" + lokasi1 + "'" +
-                                                "," + "pemain_2=" + "'" + player1 + "'" + "," + "score_2=" + "'" + lokasi2 + "'";
-                                        stmt.executeUpdate(sql);
+                                    //melakukan penambahan data
+                                    insert();
                                     break;
                                 }
                             } else {
@@ -250,11 +311,8 @@ public class TugasAkhir {
                                     System.out.println(player2 + " menang");
                                     System.out.println(player2 + " berada di " + lokasi2);
                                     System.out.println(player1 + " berada di " + lokasi1);
-                                    
-                                    //memasukkan hasil akhir ke database apabila player2 yang menang
-                                    sql = "INSERT INTO history SET id=" + "NULL" + "," + "pemain_1=" + "'" + player2 + "'" + "," + "score_1=" + "'" + lokasi1 + "'" +
-                                                "," + "pemain_2=" + "'" + player1 + "'" + "," + "score_2=" + "'" + lokasi2 + "'";
-                                        stmt.executeUpdate(sql);
+                                    //melakukan penambahan data
+                                    insert();
                                     break;
                                 }
                                 ronde++;
@@ -269,20 +327,7 @@ public class TugasAkhir {
                     break;
                 //Menu Buat Skor
                 case 2:
-                        //query untuk menampilkan semua isi pada table history dalam perintah mysql
-                        sql = "SELECT * FROM history";
-                        ResultSet rs = stmt.executeQuery(sql);
-
-                        //perintah untuk menampilkan semua isi pada table history di netbeans
-                        while (rs.next()) {
-                            int id = rs.getInt("id");
-                            String pemain_1 = rs.getString("pemain_1");
-                            int lokasi1 = rs.getInt("score_1");
-                            String pemain_2 = rs.getString("pemain_2");
-                            int lokasi2 = rs.getInt("score_2");
-                            System.out.println("| ID Game | Player 1 Name | Score Player1 | Player 2 Name | Score Player 2 |");
-                            System.out.println("| " + id + "\t  | " + pemain_1 + "\t  | " + lokasi1 + "\t\t  | " + pemain_2 + "\t  | " + lokasi2 + "\t\t   |");
-                        }
+                    show();
                     break;
                 case 3:
                     break;
