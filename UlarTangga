@@ -217,6 +217,11 @@ public class TugasAkhir {
                                     System.out.println(player1 + " menang");
                                     System.out.println(player1 + " berada di " + lokasi1);
                                     System.out.println(player2 + " berada di " + lokasi2);
+                                    
+                                    //memasukkan hasil akhir ke database apabila player1 yang menang
+                                    sql = "INSERT INTO history SET id=" + "NULL" + "," + "pemain_1=" + "'" + player2 + "'" + "," + "score_1=" + "'" + lokasi1 + "'" +
+                                                "," + "pemain_2=" + "'" + player1 + "'" + "," + "score_2=" + "'" + lokasi2 + "'";
+                                        stmt.executeUpdate(sql);
                                     break;
                                 }
                             } else {
@@ -245,6 +250,11 @@ public class TugasAkhir {
                                     System.out.println(player2 + " menang");
                                     System.out.println(player2 + " berada di " + lokasi2);
                                     System.out.println(player1 + " berada di " + lokasi1);
+                                    
+                                    //memasukkan hasil akhir ke database apabila player2 yang menang
+                                    sql = "INSERT INTO history SET id=" + "NULL" + "," + "pemain_1=" + "'" + player2 + "'" + "," + "score_1=" + "'" + lokasi1 + "'" +
+                                                "," + "pemain_2=" + "'" + player1 + "'" + "," + "score_2=" + "'" + lokasi2 + "'";
+                                        stmt.executeUpdate(sql);
                                     break;
                                 }
                                 ronde++;
